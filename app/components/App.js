@@ -2,112 +2,108 @@ import React from 'react';
 import styled from 'styled-components'
 import Header from './common/Header'
 import Spinner from './common/Spinner'
+import Footer from "./common/Footer";
 
-const Table = styled.div`
-	display: flex;
-	flex-direction: column;
-`
-const TableRow = styled.div`
-	flex-direction: row;
-	display: flex;
-	border: 1px solid black;
-	flex-wrap: wrap;
-`
-const TableCell = styled.div`
-	padding: 5px;
-	font-weight: ${({bold}) => bold ? 'bold' : 'normal'};
-	width: 25%;
-	box-sizing: border-box;
-	text-align: center;
-`
-const BoxContainer = styled.div`
-	width: 45%;
-	max-width: 800px;
-	margin: 20px;
-	padding: 10px;
-	background-color: #fff
-`
 const Root = styled.article`
 	height: 100%;
 `
-const BoxHeader = styled.h3`
-	padding: 5px;
-	border-bottom: 2px solid #000;
-	font-weight: 900;
-  font-size: 20px;
+const CoverPicture = styled.div`
+	 height: 500px;
+    width: 100%;
+    background-image: url(cs.jpg);
+    background-color: #cccccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: -1;
+    h3 {
+      color: white;
+      font-size: 50px;
+    }
 `
-const BoxSubheader = styled.h6`
-	margin: 10px 0;
-  font-size: 14px;
-  font-weight: 700;
+
+const PostBox = styled.div`
+	width: 30%;
+	height: 250px;
+	float: left;
+	margin: 10px 10px 100px;
 `
-const BoxContent = styled.div`
-	width: calc(100% - 30px);
-	padding: 0 15px;
+const PostsConteiner = styled.div`
+	display: flex;
+	justify-content: center;
+	position: relative;
+	&>div {
+	  justify-content: center;
+		width: 45%;
+		margin-top: -30px;
+	}
+`
+const ImageTitle = styled.div`
+	background: black;
+    opacity: 0.8;
+    color: white;
+    flex-direction: column;
+    padding: 10px;
+    -webkit-box-pack: end;
+    -webkit-justify-content: flex-end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: flex-start;
+`
+const Image = styled.img`
+    width: 100%;
+    height: 100%;
 `
 
 class App extends React.PureComponent {
 	componentDidMount() {
 		const {fetchStuff} = this.props
 
-		if (fetchStuff && fetchStuff instanceof Function) fetchStuff("http://pass/url/here")
+		fetchStuff && fetchStuff()
 	}
 
-	renderTableHeader = () => {
-		return (
-			<TableRow>
-				<TableCell bold>#</TableCell>
-				<TableCell bold>ID</TableCell>
-				<TableCell bold>Service</TableCell>
-				<TableCell bold>UpstreamUrl</TableCell>
-			</TableRow>
-		)
-	}
+	renderPosts = () => {
+		const {posts} = this.props
 
-	renderServices = () => {
-		const {services} = this.props
-		if (Object.keys(services).length === 0)
-			return null
+		if (!posts || posts.length === 0)
+			return <Spinner/>
 
-		return Object.keys(services.service).map((ser, IDX) => {
+
+		console.log("props", this.props)
+
+		return posts.map((post, IDX) => {
 			return (
-				<TableRow key={services.service[ser].id}>
-					<TableCell>{IDX + 1}</TableCell>
-					<TableCell>{services.service[ser].id}</TableCell>
-					<TableCell>{services.service[ser].attributes.serviceCode}</TableCell>
-					<TableCell>{services.service[ser].attributes.upstreamUrl}</TableCell>
-				</TableRow>
+				<PostBox key={`post-${post.id}`} onClick={() => this.props.history.push(`/details/${post.id}`)}>
+					<Image src={post.img} />
+					<ImageTitle>
+						<h1>{post.title}</h1>
+						<div>{post.author}</div>
+					</ImageTitle>
+				</PostBox>
 			)
 		})
-	}
-
-	renderStatusBox = () => {
-		if (Object.keys(this.props.services).length === 0)
-			return <Spinner />
-
-		return (
-			<BoxContainer>
-				<BoxHeader>
-					Services
-				</BoxHeader>
-				<BoxContent>
-					<BoxSubheader>
-						The table displays all services that are currently running
-					</BoxSubheader>
-					<Table>
-						{this.renderTableHeader()}
-						{this.renderServices()}
-					</Table>
-				</BoxContent>
-			</BoxContainer>
-		)
 	}
 
 	render() {
 		return (
 			<Root>
 				<Header />
-				{this.renderStatusBox()}
+				<CoverPicture>
+					<h3>Mission Statement TBA</h3>
+				</CoverPicture>
+				<PostsConteiner>
+					<div>
+						{this.renderPosts()}
+					</div>
+				</PostsConteiner>
+				<Footer />
 			</Root>
 		)
 	}

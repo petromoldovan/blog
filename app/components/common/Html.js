@@ -3,7 +3,7 @@ export default (config) => `
 <html lang = "en">
 <head>
 <meta charset = "UTF-8">
-<title>Starter Kit</title>
+<title>Company Blog</title>
 <style>
   html,
   body,

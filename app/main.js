@@ -12,6 +12,7 @@ import {
 import coreReducer from './reducers';
 import App from './containers/App';
 import {getInitialState} from './reducers'
+import Details from "./components/Details";
 
 const loggerMiddleware = createLogger({
 	stateTransformer: state => state.toJS()
@@ -29,7 +30,10 @@ const store = createStore(coreReducer, getInitialState(serverState), applyMiddle
 ReactDOM.render(
   <Provider store={store}>
     <Router>
-      <Route exact path="/" component={App} />
+	    <div>
+		    <Route exact path="/" component={App} />
+		    <Route exact path="/details/:id" component={Details} />
+	    </div>
     </Router>
   </Provider>,
 	document.getElementById('root'));
