@@ -34,6 +34,7 @@ const PostsConteiner = styled.div`
 	display: flex;
 	justify-content: center;
 	position: relative;
+	padding-bottom: 200px;
 	&>div {
 	  justify-content: center;
 		width: 45%;
@@ -80,7 +81,7 @@ class App extends React.PureComponent {
 
 		return data.postsAll.map((post, IDX) => {
 			return (
-				<PostBox key={`post-${post.id}-${IDX}`} onClick={() => this.props.history.push(`/details/${post.id}`)}>
+				<PostBox key={`post-${post.id}-${IDX}`} onClick={() => this.props.history.push({pathname: `/details/${post.id}`, state: { id: post.id }})}>
 					<Image src={post.img} />
 					<ImageTitle>
 						<h1>{post.title}</h1>
@@ -97,7 +98,7 @@ class App extends React.PureComponent {
 
 		return (
 			<Root>
-				<Header />
+				<Header transparent title="DSCO Blog" />
 				<CoverPicture>
 					<h3>Mission Statement TBA</h3>
 				</CoverPicture>
