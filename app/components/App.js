@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import Header from './common/Header'
 import Spinner from './common/Spinner'
 import Footer from "./common/Footer";
+import gql from 'graphql-tag'
+import {graphql} from 'react-apollo'
 
 const Root = styled.article`
 	height: 100%;
@@ -70,17 +72,15 @@ class App extends React.PureComponent {
 	}
 
 	renderPosts = () => {
-		const {posts} = this.props
+		const {data} = this.props
 
-		if (!posts || posts.length === 0)
+		if (!data || !data.postsAll) {
 			return <Spinner/>
+		}
 
-
-		console.log("props", this.props)
-
-		return posts.map((post, IDX) => {
+		return data.postsAll.map((post, IDX) => {
 			return (
-				<PostBox key={`post-${post.id}`} onClick={() => this.props.history.push(`/details/${post.id}`)}>
+				<PostBox key={`post-${post.id}-${IDX}`} onClick={() => this.props.history.push(`/details/${post.id}`)}>
 					<Image src={post.img} />
 					<ImageTitle>
 						<h1>{post.title}</h1>
@@ -92,6 +92,9 @@ class App extends React.PureComponent {
 	}
 
 	render() {
+
+		console.log("this.props", this.props)
+
 		return (
 			<Root>
 				<Header />
@@ -109,4 +112,19 @@ class App extends React.PureComponent {
 	}
 }
 
-export default App;
+const query = gql`
+    {
+        postsAll {
+            id
+            title
+            author
+            created
+            img
+            content
+            likes
+            shares
+        }
+    }
+`
+
+export default graphql(query)(App);
