@@ -3,19 +3,20 @@ import styled from 'styled-components'
 
 const FooterCont = styled.footer`
 	  margin: 0;
-    padding: 20px;
     color: white;
     background-color: black;
     text-align: center;
-    position: fixed;
     width: 100%;
     bottom: 0;
+    position: fixed;
 `
 const FooterMenu = styled.div`
 	display: flex;
 	justify-content: center;
 	
 	&>div {
+	  padding: 10px;
+    border: 1px solid;
 		width: 30%;
 	};
 	
