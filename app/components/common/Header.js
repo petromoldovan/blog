@@ -12,7 +12,7 @@ const NavContainer = styled.nav`
 const Header = () => {
 	return (
 		<NavContainer>
-			<h2>Starter Kit</h2>
+			<h2>Company Blog</h2>
 		</NavContainer>
 	)
 }

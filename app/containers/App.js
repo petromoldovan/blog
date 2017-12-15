@@ -6,10 +6,12 @@ import App from '../components/App';
 
 
 function mapStateToProps(state) {
-	const services = state.getIn(['data', 'services'], {})
+	const posts = state.getIn(['data'], [])
+
+	console.log(posts)
 
 	return {
-		services
+		posts
 	};
 }
 
